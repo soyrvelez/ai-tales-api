@@ -16,11 +16,9 @@ app.get('/', (req, res) => {
 });
 
 /*
-
 IMPORT CONTROLLERS HERE
-
-
 */
+app.use('/characters', require('./controllers/characters'));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
