@@ -40,4 +40,4 @@ userSchema.pre('save', function(next) {
 const User = mongoose.model('User', userSchema);
 
 // export the model
-module.exports = User;
+module.exports = router;

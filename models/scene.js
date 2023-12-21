@@ -15,4 +15,4 @@ const sceneSchema = new mongoose.Schema({
 
 const Scene = mongoose.model('Scene', sceneSchema);
 
-module.exports = Scene;
+module.exports = router;

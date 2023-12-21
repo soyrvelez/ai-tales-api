@@ -16,4 +16,4 @@ const characterSchema = new mongoose.Schema({
 // Create the model
 const Character = mongoose.model('Character', characterSchema);
 
-module.exports = Character;
+module.exports = router;
