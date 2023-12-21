@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const Schema = mongoose.Schema;
+
 //create user schema
 const userSchema = new mongoose.Schema({
   username: String,
@@ -40,4 +42,4 @@ userSchema.pre('save', function(next) {
 const User = mongoose.model('User', userSchema);
 
 // export the model
-module.exports = router;
+module.exports = User;

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const Schema = mongoose.Schema;
+
 const characterSchema = new mongoose.Schema({
   user: [{
       type: Schema.Types.ObjectId,
@@ -16,4 +18,4 @@ const characterSchema = new mongoose.Schema({
 // Create the model
 const Character = mongoose.model('Character', characterSchema);
 
-module.exports = router;
+module.exports = Character;

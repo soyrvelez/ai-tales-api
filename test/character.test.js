@@ -26,12 +26,12 @@ describe('Character Model Routes', () => {
     async function createCharacter(user) {
         return await Character.create({
             user: user._id,
-            name: faker.name.findName(),
+            name: faker.person.firstName(),
             species: faker.animal.type(),
-            gender: faker.random.arrayElement(['Male', 'Female', 'Non-binary']),
-            age: faker.datatype.number({ min: 1, max: 100 }),
+            gender: faker.helpers.arrayElement(['Male', 'Female', 'Non-binary']),
+            age: faker.number.int({ min: 1, max: 100 }),
             personality: faker.lorem.word(),
-            favoriteHobby: faker.hobby.type()
+            favoriteHobby: "Golf"
         });
     }
 
@@ -45,10 +45,10 @@ describe('Character Model Routes', () => {
         it('creates a new character and returns the character object', async () => {
             const characterData = {
                 user: userId,
-                name: faker.name.findName(),
+                name: faker.person.firstName(),
                 species: faker.animal.type(),
                 gender: "Non-binary",
-                age: faker.datatype.number({ min: 1, max: 100 }),
+                age: faker.number.int({ min: 1, max: 100 }),
                 personality: "Friendly",
                 favoriteHobby: "Reading"
             };
