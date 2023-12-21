@@ -20,6 +20,8 @@ IMPORT CONTROLLERS HERE
 */
 app.use('/characters', require('./controllers/characters'));
 
+app.use('/scene', require('./controllers/scenes'))
+
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server connected to PORT: ${PORT}`);
