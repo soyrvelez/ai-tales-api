@@ -54,8 +54,8 @@ describe('Character Model Routes', () => {
             };
 
             const response = await request(app)
-                .post('/new')
-                .send(characterData);
+            .post('/new')
+            .send(characterData);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.include.keys('user', 'name', 'species', 'age');
