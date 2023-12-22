@@ -4,7 +4,7 @@
   "description": "AI Tales - Backend",
   "main": "app.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 5000",
     "start": "node app.js",
     "dev": "nodemon"
   },
@@ -22,5 +22,8 @@
     "mocha": "^10.2.0",
     "mongoose": "^8.0.3",
     "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.3.1"
   }
 }
