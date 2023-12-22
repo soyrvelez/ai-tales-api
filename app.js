@@ -21,7 +21,7 @@ IMPORT CONTROLLERS HERE
 
 app.use('/users', require('./controllers/users'));
 app.use('/characters', require('./controllers/characters'));
-app.use('/scene', require('./controllers/scenes'))
+app.use('/scenes', require('./controllers/scenes'))
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
