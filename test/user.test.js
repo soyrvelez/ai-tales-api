@@ -32,7 +32,7 @@ describe('User Model Routes', () => {
             };
 
             const response = await request(app)
-                .post('/new')
+                .post('/users/new')
                 .send(userData);
 
             expect(response.status).to.equal(200);
@@ -53,7 +53,7 @@ describe('User Model Routes', () => {
         });
 
         it('returns the user object for a valid id', async () => {
-            const response = await request(app).get(`/${createdUserId}`);
+            const response = await request(app).get(`/users/${createdUserId}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.have.property('_id', createdUserId.toString());
@@ -78,7 +78,7 @@ describe('User Model Routes', () => {
             };
 
             const response = await request(app)
-                .put(`/edit/${createdUserId}`)
+                .put(`/users/edit/${createdUserId}`)
                 .send(updatedData);
 
             expect(response.status).to.equal(200);
@@ -99,7 +99,7 @@ describe('User Model Routes', () => {
 
         it('deletes a user and ensures it no longer exists', async () => {
             const response = await request(app)
-                .delete(`/delete/${createdUserId}`);
+                .delete(`/users/delete/${createdUserId}`);
 
             expect(response.status).to.equal(200);
 

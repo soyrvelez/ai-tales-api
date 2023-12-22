@@ -67,10 +67,10 @@ describe('Scene Model Routes', () => {
             };
 
             const response = await request(app)
-                .post('/new')
+                .post(`/scenes/new/${characterId}`)
                 .send(sceneData);
 
-            expect(response.status).to.equal(200);
+            expect(response.status).to.equal(201);
             expect(response.body).to.include.keys('character', 'prompt', 'sceneImageUrl');
         });
 
@@ -88,11 +88,12 @@ describe('Scene Model Routes', () => {
         before(async () => {
             const testCharacter = await createCharacter(await createUser());
             const testScene = await createScene(testCharacter);
+            characterId = testCharacter._id;
             sceneId = testScene._id;
         });
 
         it('returns the scene object for a valid id', async () => {
-            const response = await request(app).get(`/${sceneId}`);
+            const response = await request(app).get(`/scenes/${sceneId}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.have.property('_id', sceneId.toString());
@@ -100,7 +101,7 @@ describe('Scene Model Routes', () => {
 
         after(async () => {
             await Scene.findByIdAndDelete(sceneId);
-            await Character.findByIdAndDelete(testCharacter._id);
+            await Character.findByIdAndDelete(characterId);
         });
     });
 
@@ -115,7 +116,7 @@ describe('Scene Model Routes', () => {
         });
 
         it('returns all scenes for a given character', async () => {
-            const response = await request(app).get(`/character/${characterId}`);
+            const response = await request(app).get(`/scenes/character/${characterId}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.be.an('array');
@@ -139,7 +140,7 @@ describe('Scene Model Routes', () => {
         });
 
         it('returns all scenes associated with a user', async () => {
-            const response = await request(app).get(`/users/${userId}`);
+            const response = await request(app).get(`/scenes/users/${userId}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.be.an('array');
@@ -154,7 +155,7 @@ describe('Scene Model Routes', () => {
     });
 
     // Test GET /explore/ - View all scenes except those of the current user
-describe('GET /explore/', () => {
+describe('GET /explore/:userId', () => {
     let currentUser, otherUser, otherCharacter, otherSceneId;
 
     before(async () => {
@@ -169,7 +170,7 @@ describe('GET /explore/', () => {
     });
 
     it('returns scenes not associated with the current user', async () => {
-        const response = await request(app).get('/explore/');
+        const response = await request(app).get(`/scenes/explore/${currentUser._id}`);
 
         expect(response.status).to.equal(200);
         expect(response.body).to.be.an('array');
@@ -198,7 +199,7 @@ describe('GET /explore/', () => {
         });
 
         it('deletes a scene and ensures it no longer exists', async () => {
-            const response = await request(app).delete(`/delete/${sceneId}`);
+            const response = await request(app).delete(`/scenes/delete/${sceneId}`);
 
             expect(response.status).to.equal(200);
 

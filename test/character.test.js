@@ -54,7 +54,7 @@ describe('Character Model Routes', () => {
             };
 
             const response = await request(app)
-            .post('/new')
+            .post('/characters/new')
             .send(characterData);
 
             expect(response.status).to.equal(200);
@@ -81,7 +81,7 @@ describe('Character Model Routes', () => {
         });
 
         it('returns the character object for a valid id', async () => {
-            const response = await request(app).get(`/${characterId}`);
+            const response = await request(app).get(`/characters/${characterId}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.have.property('_id', characterId.toString());
@@ -105,7 +105,7 @@ describe('Character Model Routes', () => {
         });
 
         it('returns all characters for a given user', async () => {
-            const response = await request(app).get(`/collection/${userId}`);
+            const response = await request(app).get(`/characters/collection/${userId}`);
 
             expect(response.status).to.equal(200);
             expect(response.body).to.be.an('array');
@@ -134,7 +134,7 @@ describe('Character Model Routes', () => {
             };
 
             const response = await request(app)
-                .put(`/edit/${characterId}`)
+                .put(`/characters/edit/${characterId}`)
                 .send(updatedData);
 
             expect(response.status).to.equal(200);
@@ -158,7 +158,7 @@ describe('Character Model Routes', () => {
 
         it('deletes a character and ensures it no longer exists', async () => {
             const response = await request(app)
-                .delete(`/delete/${characterId}`);
+                .delete(`/characters/delete/${characterId}`);
 
             expect(response.status).to.equal(200);
 
