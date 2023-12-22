@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const Schema = mongoose.Schema;
+
 const sceneSchema = new mongoose.Schema({
     character: [{
       type: Schema.Types.ObjectId,
