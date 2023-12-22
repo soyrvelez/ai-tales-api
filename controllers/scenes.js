@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 // import the Game Model
-const { Scene } = require('../models');
+const { Scene, Character } = require('../models');
 
 /**
- * 
+ *
 POST - /new/:characterId - Create a scene
 GET - /:id - View a single scene
 GET - /character/:characterId - Views all of a character’s scenes
@@ -17,16 +17,16 @@ DELETE - /delete/:id - Delete scene (Users can only delete their own scenes)
 // controllers/sceneController.js
 
 /**
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * Create a new scene
- * 
- * 
- * 
- * 
- * */ 
+ *
+ *
+ *
+ *
+ * */
 router.post('/new/:characterId', async (req, res) => {
   const characterId = req.params.characterId;
   const { prompt, sceneImageUrl, sceneCaption } = req.body;
@@ -50,16 +50,16 @@ router.post('/new/:characterId', async (req, res) => {
   }
 });
 /**
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * View a single scene
- * 
- * 
- * 
- * 
- * */ 
+ *
+ *
+ *
+ *
+ * */
 router.get('/:id', async (req, res) => {
   const sceneId = req.params.id;
 
@@ -76,16 +76,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 /**
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * View all scenes for a character
- * 
- * 
- * 
- * 
- * */ 
+ *
+ *
+ *
+ *
+ * */
 router.get('/character/:characterId', async (req, res) => {
   const characterId = req.params.characterId;
 
@@ -148,15 +148,15 @@ router.get('/explore/:userId', async (req, res) => {
   }
 });
 /**
- * 
- * 
+ *
+ *
  * ======================================
  * Need user varification to delete the scene
  * View all scenes for a character
- * 
+ *
  * ======================================
- * 
- * 
+ *
+ *
  * */
 // Delete a scene
 router.delete('/delete/:id', async (req, res) => {
