@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 });
 
 //------------------------------
-//PUT /edit/:id - edit user and return user
+//PUT /edit/:id - edit user account and return user account
 //-------------------------------
 router.put('/edit/:id', async (req, res) => {
     try {
@@ -57,6 +57,21 @@ router.put('/edit/:id', async (req, res) => {
     }
 });
 
+//------------------------------
+// DELETE /delete/:id - delete user account
+//-------------------------------
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.params.id)
+        if (!deletedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        return res.status(200).json({ message: ` User was deleted successfully` })
+    } catch (error) {
+        console.error('Failed to delete user', error);
+        return res.status(500).json({ error: "Server error" });
+    }
+});
 
 
 module.exports = router;
