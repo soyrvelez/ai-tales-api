@@ -9,9 +9,7 @@ const STRATEGY = new LocalStrategy({
     passwordField: 'password'       // looks for an password field as the password
     }, async (email, password, cb) => {
         try {
-            const foundUser = await user.findOne({
-                where: { email }
-            });
+            const foundUser = await user.findOne({ email: email });
 
             if (!foundUser || !foundUser.validPassword(password)) {
                 cb(null, false);     // if no user or invalid password, return false
@@ -26,12 +24,12 @@ const STRATEGY = new LocalStrategy({
 
 // Passport "serialize" info to be able to login
 passport.serializeUser((user, cb) => {
-    cb(null, user.id);
+    cb(null, user._id);
 });
 
 passport.deserializeUser(async (id, cb) => {
     try {
-        const foundUser = await user.findByPk(id);
+        const foundUser = await user.findById(id);
 
         if (foundUser) {
             cb(null, foundUser);

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const Schema = mongoose.Schema;
 
-//create user schema
+// Create user schema
 const userSchema = new mongoose.Schema({
   username: String,
   password: {
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   }],
 }, { timestamps: true });
 
-// Pre save hook
+// Pre save hook for hashing the password
 userSchema.pre('save', function(next) {
   const user = this;
 
@@ -38,8 +38,20 @@ userSchema.pre('save', function(next) {
   });
 });
 
+// Password validation method
+userSchema.methods.validPassword = function(typedPassword) {
+  return bcrypt.compareSync(typedPassword, this.password);
+};
+
+// toJSON method - omit the password field
+userSchema.methods.toJSON = function() {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
 // Create the model
 const User = mongoose.model('User', userSchema);
 
-// export the model
+// Export the model
 module.exports = User;
