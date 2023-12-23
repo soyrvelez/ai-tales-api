@@ -3,6 +3,7 @@ const router = express.Router();
 // import the Game Model
 const { Scene, Character } = require('../models');
 const getCaption = require('../middleware/getCaption');
+const getImage = require('../middleware/getImage');
 
 /**
  *
@@ -33,12 +34,12 @@ router.post('/new/:characterId', async (req, res) => {
   const { prompt } = req.body;
   try {
     const storyCharacter = await getCharacterById(characterId);
-    console.log('Debugging this --->', storyCharacter);
     const sceneCaption = await getCaption(prompt, storyCharacter);
+    const sceneImage = await getImage(prompt, storyCharacter);
     const newScene = new Scene({
       character: characterId,
       prompt: prompt,
-      sceneImageUrl: 'https://picsum.photos/200/300',
+      sceneImageUrl: sceneImage,
       sceneCaption: sceneCaption,
       likes: 0,
       comments: 0,
