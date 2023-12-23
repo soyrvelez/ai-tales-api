@@ -34,26 +34,41 @@ router.post('/new/:characterId', async (req, res) => {
   const { prompt } = req.body;
   try {
     const storyCharacter = await getCharacterById(characterId);
+
+    // Get the scene caption
     const sceneCaption = await getCaption(prompt, storyCharacter);
-    const sceneImage = await getImage(prompt, storyCharacter);
-    const newScene = new Scene({
-      character: characterId,
-      prompt: prompt,
-      sceneImageUrl: sceneImage,
-      sceneCaption: sceneCaption,
-      likes: 0,
-      comments: 0,
-      views: 0,
-    });
+    console.log('Scene Caption:', sceneCaption); // Log the caption to debug
 
-    await newScene.save();
+    // Check if sceneCaption is valid before proceeding
+    if (typeof sceneCaption === 'string' && sceneCaption.trim() !== '') {
+      // Use sceneCaption for getImage
+      const sceneImage = await getImage(sceneCaption, storyCharacter);
+      console.log('Scene Image URL:', sceneImage); // Log the image URL to debug
 
-    res.status(201).json(newScene);
+      const newScene = new Scene({
+        character: characterId,
+        prompt: prompt,
+        sceneImageUrl: sceneImage,
+        sceneCaption: sceneCaption,
+        likes: 0,
+        comments: 0,
+        views: 0,
+      });
+
+      await newScene.save();
+
+      res.status(201).json(newScene);
+    } else {
+      // Handle case where sceneCaption is not valid
+      throw new Error('Invalid scene caption received');
+    }
   } catch (error) {
-    console.error(error);
+    console.error('Error in /new/:characterId route:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
 /**
  *
  *
@@ -196,14 +211,14 @@ router.delete('/delete/:id', async (req, res) => {
 
 async function getCharacterById(id) {
   try {
-      const character = await Character.findById(id);
-      if (!character) {
-          console.log('No character found with that ID');
-      } else {
-          return character;
-      }
+    const character = await Character.findById(id);
+    if (!character) {
+      console.log('No character found with that ID');
+    } else {
+      return character;
+    }
   } catch (error) {
-      console.error('Error fetching document:', error);
+    console.error('Error fetching document:', error);
   }
 }
 
