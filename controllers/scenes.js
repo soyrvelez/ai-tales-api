@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 // import the Game Model
 const { Scene, Character } = require('../models');
+const getCaption = require('../middleware/getCaption');
 
 /**
  *
@@ -29,13 +30,16 @@ DELETE - /delete/:id - Delete scene (Users can only delete their own scenes)
  * */
 router.post('/new/:characterId', async (req, res) => {
   const characterId = req.params.characterId;
-  const { prompt, sceneImageUrl, sceneCaption } = req.body;
+  const { prompt } = req.body;
   try {
+    const storyCharacter = await getCharacterById(characterId);
+    console.log('Debugging this --->', storyCharacter);
+    const sceneCaption = await getCaption(prompt, storyCharacter);
     const newScene = new Scene({
       character: characterId,
-      prompt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      prompt: prompt,
       sceneImageUrl: 'https://picsum.photos/200/300',
-      sceneCaption: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      sceneCaption: sceneCaption,
       likes: 0,
       comments: 0,
       views: 0,
@@ -188,5 +192,18 @@ router.delete('/delete/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+async function getCharacterById(id) {
+  try {
+      const character = await Character.findById(id);
+      if (!character) {
+          console.log('No character found with that ID');
+      } else {
+          return character;
+      }
+  } catch (error) {
+      console.error('Error fetching document:', error);
+  }
+}
 
 module.exports = router;
