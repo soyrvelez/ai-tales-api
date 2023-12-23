@@ -85,67 +85,60 @@ router.delete('/delete/:id', async (req, res) => {
 **********************************************
 **********************************************
 ********************************************** */
-
-
-
-// import models
-const { user } = require('../models');
-
 router.get("/signup", (req, res) => {
-  return res.render("auth/signup");
+    return res.message({ message: "Signup Page" });
 });
 
 router.get("/login", (req, res) => {
-  return res.render("auth/login");
+    return res.message({ message: "Auth/Login" });
 });
 
 router.get('/logout', (req, res) => {
-  req.logOut(function(err, next) {
-    if (err) {
-      return next(err);
-    }
-    req.flash('success', 'Logging out... See you next time!');
-    res.redirect('/');
-  }); // logs the user out of the session
+    req.logOut(function (err, next) {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success', 'Logging out... See you next time!');
+        res.redirect('/');
+    }); // logs the user out of the session
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/auth/login',
-  successFlash: 'Welcome back ...',
-  failureFlash: 'Either email or password is incorrect'
+    successRedirect: '/',
+    failureRedirect: '/auth/login',
+    successFlash: 'Welcome back ...',
+    failureFlash: 'Either email or password is incorrect'
 }));
 
 router.post('/signup', async (req, res) => {
-  // we now have access to the user info (req.body);
-  const { email, name, password } = req.body; // goes and us access to whatever key/value inside of the object
-  try {
-    const [_user, created] = await user.findOrCreate({
-        where: { email },
-        defaults: { name, password }
-    });
+    const { email, username, password } = req.body;
 
-    if (created) {
-        // if created, success and we will redirect back to / page
-        console.log(`----- ${_user.name} was created -----`);
-        const successObject = {
-            successRedirect: '/',
-            successFlash: `Welcome ${_user.name}. Account was created and logging in...`
+    try {
+        // Check if a user with the given email already exists
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            // If no user exists, create a new user
+            user = await User.create({ email, username, password });
+            console.log(`----- ${user.username} was created -----`);
+
+            const successObject = {
+                successRedirect: '/',
+                successFlash: `Welcome ${user.username}. Account was created and logging in...`
+            };
+
+            // Authenticate and redirect
+            passport.authenticate('local', successObject)(req, res);
+        } else {
+            // If user exists, send back a message
+            req.flash('error', 'Email already exists');
+            res.redirect('/auth/signup'); // Redirect back to sign up page
         }
-        //
-        passport.authenticate('local', successObject)(req, res);
-    } else {
-      // Send back email already exists
-      req.flash('error', 'Email already exists');
-      res.redirect('/auth/signup'); // redirect the user back to sign up page to try again
-    }
-  } catch (error) {
-        // There was an error that came back; therefore, we just have the user try again
-        console.log('**************Error');
-        console.log(error);
+    } catch (error) {
+        console.log('**************Error**************', error);
         req.flash('error', 'Either email or password is incorrect. Please try again.');
         res.redirect('/auth/signup');
-  }
+    }
 });
 
 module.exports = router;
