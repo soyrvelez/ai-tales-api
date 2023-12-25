@@ -2,14 +2,14 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 // Database
-const { user } = require('../models');
+const { User } = require('../models');
 
 const STRATEGY = new LocalStrategy({
     usernameField: 'email',         // looks for an email field as the username
     passwordField: 'password'       // looks for an password field as the password
     }, async (email, password, cb) => {
         try {
-            const foundUser = await user.findOne({ email: email });
+            const foundUser = await User.findOne({ email: email });
 
             if (!foundUser || !foundUser.validPassword(password)) {
                 cb(null, false);     // if no user or invalid password, return false
@@ -29,7 +29,7 @@ passport.serializeUser((user, cb) => {
 
 passport.deserializeUser(async (id, cb) => {
     try {
-        const foundUser = await user.findById(id);
+        const foundUser = await User.findById(id);
 
         if (foundUser) {
             cb(null, foundUser);
