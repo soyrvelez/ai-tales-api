@@ -12,7 +12,8 @@ const characterSchema = new mongoose.Schema({
   gender: String,
   age: Number,
   personality: String,
-  favoriteHobby:String
+  favoriteHobby:String,
+  avatar: String
 }, { timestamps: true });
 
 // Create the model

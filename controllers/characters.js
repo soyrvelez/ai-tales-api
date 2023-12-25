@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { Character } = require('../models');
+const getAvatar = require('../middleware/getAvatar');
 
 // POST /new - Create a new character
 router.post('/new', async (req, res) => {
   try {
     const newCharacter = await Character.create(req.body);
+    const avatar = await getAvatar(req.body);
+    newCharacter.avatar = avatar
+    await newCharacter.save();
     res.status(200).json(newCharacter);
   } catch (error) {
     console.error('Error creating character:', error);
