@@ -57,7 +57,7 @@ router.post('/new/:characterId', async (req, res) => {
 
       await newScene.save();
 
-      res.status(201).json(newScene);
+      res.status(201).json({ sceneId: newScene._id, newScene });
     } else {
       // Handle case where sceneCaption is not valid
       throw new Error('Invalid scene caption received');
