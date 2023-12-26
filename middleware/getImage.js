@@ -6,7 +6,7 @@ async function getImage(prompt, character) {
     const { name, species, gender, age, personality, favoriteHobby } = character;
     const response = await openai.images.generate({
       model: "dall-e-3",
-      prompt: `Create a detailed and expressive image in the style of a high-quality animated movie. Use bright, vivid colors and a joyful, wonder-filled atmosphere. The scene should center around a ${age}-year-old ${gender} ${species} named ${name}, characterized by a ${personality} personality, enjoying their favorite hobby: ${favoriteHobby}. The image should be inspired by the following story prompt: ${prompt}, and it must be rich in details to vividly convey the narrative without any text.`,
+      prompt: `Create a detailed and expressive image in the style of a high-quality animated movie. Use bright, vivid colors and a joyful, wonder-filled atmosphere. The image should be designed to stand out when shared on a social media feed. The scene should center around a ${age}-year-old ${gender} ${species} named ${name}, characterized by a ${personality} personality, enjoying their favorite hobby: ${favoriteHobby}. The image should be inspired by the following story prompt: ${prompt}, and it must be rich in details to vividly convey the narrative without any text.`,
       n: 1,
       size: "1024x1024"
     });
