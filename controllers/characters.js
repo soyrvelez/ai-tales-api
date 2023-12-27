@@ -34,13 +34,14 @@ router.get('/:id', async (req, res) => {
 // GET /collection/:userId - View all characters for a user
 router.get('/collection/:userId', async (req, res) => {
   try {
-    const characters = await Character.find({ user: req.params.userId });
+    const characters = await Character.find({ user: req.params.userId }).sort({ createdAt: -1 });
     res.status(200).json(characters);
   } catch (error) {
     console.error('Error fetching characters:', error);
     res.status(500).send('Server error');
   }
 });
+
 
 // PUT /edit/:id - Edit a single character
 router.put('/edit/:id', async (req, res) => {
