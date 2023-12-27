@@ -37,11 +37,11 @@ app.use((req, res, next) => {
     res.locals.alerts = req.flash();
     res.locals.currentUser = req.user;
     next();
-  });
+});
 
 
 app.get('/', (req, res) => {
-    return res.json({ message: 'Welcome to AI Tales' });
+    res.redirect('/');
 });
 
 /*

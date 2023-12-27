@@ -114,12 +114,27 @@ router.get('/logout', (req, res) => {
     }); // logs the user out of the session
 });
 
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/auth/login',
-    successFlash: 'Welcome back ...',
-    failureFlash: 'Either email or password is incorrect'
-}));
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        if (!user) {
+            return res.status(401).json({ error: 'Authentication failed' });
+        }
+
+        req.logIn(user, (err) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            // Successful authentication, return a JSON response
+            return res.json({ message: 'Authentication successful' });
+        });
+    })(req, res, next);
+});
+
 
 router.post('/signup', async (req, res) => {
     const { email, username, password } = req.body;
