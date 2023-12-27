@@ -43,10 +43,20 @@ router.get('/:id', async (req, res) => {
 //-------------------------------
 router.put('/edit/:id', async (req, res) => {
     try {
+        // Check if the email is already in use by another user
+        if (req.body.email) {
+            const existingUser = await User.findOne({ email: req.body.email });
+            if (existingUser && existingUser._id.toString() !== req.params.id) {
+                return res.status(400).json({ error: 'Email already in use' });
+            }
+        }
+
+        // Proceed to update the user
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true })
+            { new: true }
+        );
         if (!updatedUser) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -57,6 +67,7 @@ router.put('/edit/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 //------------------------------
 // DELETE /delete/:id - delete user account
