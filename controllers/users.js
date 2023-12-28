@@ -3,7 +3,9 @@ const router = express.Router();
 //import the User Model
 const { User } = require('../models');
 const passport = require('../config/ppConfig');
+const jwt = require('jsonwebtoken');
 
+JWT_SECRET = process.env.JWT_SECRET;
 
 // POST /new - Create new user
 router.post('/new', async (req, res) => {
@@ -119,22 +121,20 @@ router.post('/login', (req, res, next) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-
         if (!user) {
             return res.status(401).json({ error: 'Authentication failed' });
         }
-
         req.logIn(user, (err) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
-
-            // Successful authentication, return a JSON response
-            return res.json({ message: 'Authentication successful' });
+            // Successful authentication
+            console.log(user);
+            const token = jwt.sign({ id: user._id.toString() }, JWT_SECRET, { expiresIn: '1h' });
+            return res.json({ message: 'Authentication successful', token });
         });
     })(req, res, next);
 });
-
 
 router.post('/signup', async (req, res) => {
     const { email, username, password } = req.body;
