@@ -156,3 +156,9 @@ async function getAvatar(character) {
 ##### Opportunities
 - Experimenting with different image generation models ie., Stable Diffusion.
 - Expanding the API to support more social features. ie., Adding Friends / Followers.
+
+### Team
+AI Tales was developed in partnership by:
+- Abigail Olaguivel
+- Layla Cervantes
+- Rodrigo Vélez
