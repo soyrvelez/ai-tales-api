@@ -159,6 +159,6 @@ async function getAvatar(character) {
 
 ### Team
 AI Tales was developed in partnership by:
-- Abigail Olaguivel
-- Layla Cervantes
-- Rodrigo Vélez
+- [Abigail Olaguivel](https://github.com/Abbyog27)
+- [Layla Cervantes](https://github.com/ltcervan)
+- [Rodrigo Vélez](https://github.com/soyrvelez/)
