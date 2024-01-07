@@ -14,8 +14,10 @@ SECRET_SESSION = process.env.SECRET_SESSION;
 
 // CORS configuration for localhost:3000
 const corsOptions = {
-    origin: 'http://localhost:3000', // your frontend origin
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    origin: 'http://localhost:3000', // or the specific origin you want to allow
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // if your frontend needs to send cookies
+    optionsSuccessStatus: 200
 };
 
 // middleware
