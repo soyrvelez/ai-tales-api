@@ -16,6 +16,7 @@ router.post('/new', async (req, res) => {
             email: req.body.email
         });
         console.log(`${newUser} was created successfully`);
+        res.set('Access-Control-Allow-Origin', 'https://ai-tales.vercel.app');
         res.status(200).json(newUser);
     } catch (error) {
         console.error('Error creating user:', error);
