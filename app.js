@@ -12,10 +12,16 @@ const db = require('./models');
 // environment variables
 SECRET_SESSION = process.env.SECRET_SESSION;
 
+// CORS configuration for localhost:3000
+const corsOptions = {
+    origin: 'http://localhost:3000', // your frontend origin
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 // middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
