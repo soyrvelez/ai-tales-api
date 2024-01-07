@@ -1,6 +1,9 @@
 {
   "name": "ai-tales-backend",
   "version": "1.0.0",
+  "engines": {
+    "node": "v11.13.0"
+  },
   "description": "AI Tales - Backend",
   "main": "app.js",
   "scripts": {
