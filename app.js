@@ -14,7 +14,7 @@ SECRET_SESSION = process.env.SECRET_SESSION;
 
 // CORS configuration for localhost:3000
 const corsOptions = {
-    origin: 'http://localhost:3000', // or the specific origin you want to allow
+    origin: ['http://localhost:3000', 'https://ai-tales.vercel.app/'], // or the specific origin you want to allow
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // if your frontend needs to send cookies
     optionsSuccessStatus: 200
